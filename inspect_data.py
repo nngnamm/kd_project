@@ -6,7 +6,7 @@ print(ds)
 
 for i in range(5):
     print(ds["train"][i])
-    print(row["label", row["sentence"]])
+    print(row["label"], row["sentence"])
 
 val = ds["validation"]
 print(val[0])
