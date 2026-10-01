@@ -11,8 +11,11 @@ from kd_trainer import DistillationTrainer
 
 SEED = 42
 SMOKE_TEST = False
-OUTPUT_DIR = "/kaggle/working/kd_sst2"
-FINAL_DIR = "/kaggle/working/student_final"
+ALPHA = 0.0
+TEMPERATURE = 4.0
+RUN_NAME = "ce_baseline"
+OUTPUT_DIR = "/kaggle/working/" + RUN_NAME
+FINAL_DIR = "/kaggle/working/student_" + RUN_NAME
 
 
 def compute_metrics(eval_pred):
@@ -38,12 +41,11 @@ def main():
         per_device_eval_batch_size=64,
         learning_rate=5e-5,
         weight_decay=0.01,
+        warmup_ratio=0.1,
         fp16=True,
         eval_strategy="epoch",
         save_strategy="epoch",
         save_total_limit=2,
-        load_best_model_at_end=False,
-        warmup_ratio=0.1,
         logging_steps=50,
         report_to="none",
         seed=SEED,
@@ -57,8 +59,8 @@ def main():
         data_collator=collator,
         compute_metrics=compute_metrics,
         teacher_model=teacher,
-        temperature=4.0,
-        alpha=0.5,
+        temperature=TEMPERATURE,
+        alpha=ALPHA,
     )
 
     print("Effective train batch size:", trainer.args.train_batch_size)
