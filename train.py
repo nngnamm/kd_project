@@ -10,7 +10,7 @@ from models import get_teacher, get_student
 from kd_trainer import DistillationTrainer
 
 SEED = 42
-SMOKE_TEST = True
+SMOKE_TEST = False
 OUTPUT_DIR = "/kaggle/working/kd_sst2"
 FINAL_DIR = "/kaggle/working/student_final"
 
@@ -42,9 +42,8 @@ def main():
         eval_strategy="epoch",
         save_strategy="epoch",
         save_total_limit=2,
-        load_best_model_at_end=True,
-        metric_for_best_model="accuracy",
-        greater_is_better=True,
+        load_best_model_at_end=False,
+        warmup_ratio=0.1,
         logging_steps=50,
         report_to="none",
         seed=SEED,
